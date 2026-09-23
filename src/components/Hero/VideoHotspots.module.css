@@ -1,0 +1,62 @@
+/* Desktop only – touch devices get the regular "Check my work" flow. */
+.layer {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: none;
+  pointer-events: none;
+}
+
+@media (hover: hover) and (pointer: fine) and (min-width: 1024px) {
+  .layer {
+    display: block;
+  }
+}
+
+.hotspot {
+  position: absolute;
+  border-radius: 10px;
+  pointer-events: auto;
+  cursor: none;
+  /* Spotlight: a huge shadow darkens everything outside the box (clipped by the card). */
+  box-shadow: 0 0 0 100vmax rgba(6, 6, 6, 0);
+  transition: box-shadow 0.6s var(--ease-out);
+}
+
+.hotspot:hover,
+.hotspot:focus-visible {
+  box-shadow: 0 0 0 100vmax rgba(6, 6, 6, 0.62);
+  outline: none;
+}
+
+/* Cursor-following pill (positioned by GSAP) */
+.pill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  height: 36px;
+  padding: 0 16px;
+  border-radius: 144px;
+  background: #fff;
+  color: var(--color-foreground);
+  box-shadow: var(--shadow-button);
+  font-size: 14px;
+  letter-spacing: var(--tracking-tight);
+  white-space: nowrap;
+  translate: -50% -50%;
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Keyboard focus: pill sits in the middle of the box */
+.hotspot:focus-visible .pill {
+  top: 50%;
+  left: 50%;
+  visibility: visible;
+  opacity: 1;
+}

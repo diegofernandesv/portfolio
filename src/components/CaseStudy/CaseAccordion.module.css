@@ -1,0 +1,127 @@
+.accordion {
+  margin-top: clamp(96px, 10vw, 160px);
+  border-bottom: 1px solid var(--color-foreground);
+}
+
+.section {
+  border-top: 1px solid var(--color-foreground);
+}
+
+.header {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: 24px;
+  align-items: center;
+  width: 100%;
+  padding: clamp(20px, 2.5vw, 32px) 0;
+  border: 0;
+  background: none;
+  text-align: left;
+  cursor: pointer;
+}
+
+.title {
+  grid-column: 1 / 12;
+  font-size: clamp(48px, 7.5vw, 112px);
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: -0.06em;
+  color: var(--color-foreground);
+  transition:
+    color 0.5s ease,
+    translate 0.6s var(--ease-out);
+}
+
+/* Plus that turns into a minus */
+.icon {
+  grid-column: 12 / 13;
+  justify-self: end;
+  position: relative;
+  width: 48px;
+  height: 48px;
+  border: 1px solid var(--color-border);
+  border-radius: 50%;
+  transition:
+    background-color 0.4s ease,
+    border-color 0.4s ease;
+}
+
+.icon::before,
+.icon::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 16px;
+  height: 1.5px;
+  border-radius: 2px;
+  background: var(--color-foreground);
+  translate: -50% -50%;
+  transition:
+    rotate 0.5s var(--ease-out),
+    opacity 0.4s ease,
+    background-color 0.4s ease;
+}
+
+.icon::after {
+  rotate: 90deg;
+}
+
+.section[data-open] .title {
+  color: var(--case-accent, var(--color-foreground));
+}
+
+.section[data-open] .icon {
+  border-color: var(--color-foreground);
+  background: var(--color-foreground);
+}
+
+.section[data-open] .icon::before,
+.section[data-open] .icon::after {
+  background: #fff;
+}
+
+.section[data-open] .icon::after {
+  rotate: 180deg;
+  opacity: 0;
+}
+
+@media (hover: hover) {
+  .header:hover .title {
+    translate: 12px 0;
+  }
+
+  .section:not([data-open]) .header:hover .icon {
+    border-color: var(--color-foreground);
+  }
+}
+
+.body {
+  overflow: hidden;
+}
+
+.inner {
+  padding-bottom: clamp(64px, 8vw, 120px);
+}
+
+/* The first chapter inside a phase doesn't need the full chapter gap */
+.inner > :first-child {
+  padding-top: clamp(24px, 3vw, 48px);
+}
+
+@media (max-width: 640px) {
+  .header {
+    grid-template-columns: 1fr auto;
+    row-gap: 4px;
+  }
+
+  .title {
+    grid-column: 1;
+  }
+
+  .icon {
+    grid-column: 2;
+    width: 40px;
+    height: 40px;
+  }
+}

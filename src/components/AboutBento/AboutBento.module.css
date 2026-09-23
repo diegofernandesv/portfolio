@@ -1,0 +1,537 @@
+/* Continues the "desk" from the Hola section: white paper, polaroid shadows, tilts and sticker pills. */
+.section {
+  --paper-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.08),
+    0 16px 36px -14px rgba(0, 0, 0, 0.35);
+  --sticker-shadow: 0 10px 24px -12px rgba(0, 0, 0, 0.35);
+
+  max-width: var(--page-max);
+  margin: 0 auto;
+  padding: clamp(96px, 10vw, 160px) var(--gutter) 0;
+}
+
+.head {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: clamp(48px, 5vw, 72px);
+  text-align: center;
+}
+
+.heading {
+  font-size: clamp(32px, 3.4vw, 48px);
+  font-weight: 500;
+  line-height: 1.1;
+  letter-spacing: -0.04em;
+  color: var(--color-foreground);
+}
+
+/* ---------- Grid of paper cards ---------- */
+.bento {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-auto-rows: minmax(260px, auto);
+  gap: clamp(28px, 3vw, 44px) clamp(20px, 2vw, 32px);
+}
+
+.card {
+  --r: 0deg;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  padding: 44px clamp(20px, 2vw, 28px) clamp(20px, 2vw, 28px);
+  border-radius: 8px;
+  background: #fff;
+  color: var(--color-foreground);
+  box-shadow: var(--paper-shadow);
+  rotate: var(--r);
+  transition:
+    rotate 0.6s var(--ease-out),
+    translate 0.6s var(--ease-out),
+    box-shadow 0.6s var(--ease-out);
+}
+
+@media (hover: hover) {
+  .card:hover {
+    rotate: 0deg;
+    translate: 0 -6px;
+    box-shadow:
+      0 1px 2px rgba(0, 0, 0, 0.08),
+      0 28px 48px -18px rgba(0, 0, 0, 0.4);
+  }
+}
+
+.origin {
+  grid-column: 1 / 3;
+  grid-row: 1 / 3;
+  padding: 12px 12px 24px;
+}
+
+.codeCard {
+  grid-column: 3 / 5;
+}
+
+.viewsCard {
+  grid-column: 3;
+  justify-content: space-between;
+  background: #111;
+  color: #fff;
+}
+
+.madrid {
+  grid-column: 4;
+  justify-content: flex-end;
+}
+
+.routeCard {
+  grid-column: 1 / 3;
+}
+
+.offCard {
+  grid-column: 3 / 5;
+  justify-content: space-between;
+}
+
+/* ---------- Sticker labels (same as the desk stickers) ---------- */
+.label {
+  position: absolute;
+  top: -16px;
+  left: 20px;
+  z-index: 2;
+  padding: 8px 16px;
+  border-radius: 144px;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  white-space: nowrap;
+  box-shadow: var(--sticker-shadow);
+  rotate: -3deg;
+}
+
+.card:nth-child(even) .label {
+  rotate: 2.5deg;
+}
+
+.label[data-tone="gold"],
+.chip[data-tone="gold"] {
+  background: var(--accent-gold);
+  color: #111;
+}
+
+.label[data-tone="ink"],
+.chip[data-tone="ink"] {
+  background: #111;
+  color: #fff;
+}
+
+.label[data-tone="paper"],
+.chip[data-tone="paper"] {
+  background: #fff;
+  color: #111;
+  box-shadow:
+    0 0 0 1px var(--color-border),
+    var(--sticker-shadow);
+}
+
+/* Washi tape holding a card down */
+.tape {
+  position: absolute;
+  top: -12px;
+  right: 18%;
+  z-index: 1;
+  width: 88px;
+  height: 26px;
+  background: color-mix(in srgb, var(--accent-gold) 55%, transparent);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
+  rotate: 6deg;
+  -webkit-mask-image: linear-gradient(90deg, transparent 0 2px, #000 2px calc(100% - 2px), transparent 0);
+  mask-image: linear-gradient(90deg, transparent 0 2px, #000 2px calc(100% - 2px), transparent 0);
+}
+
+.routeCard .tape {
+  background: rgba(17, 17, 17, 0.14);
+  rotate: -5deg;
+}
+
+.text {
+  max-width: 540px;
+  font-size: 17px;
+  line-height: 1.45;
+  letter-spacing: -0.02em;
+  color: var(--color-body);
+}
+
+.text strong {
+  font-weight: 600;
+  color: var(--color-foreground);
+}
+
+/* ---------- 01: polaroid ---------- */
+.photo {
+  position: relative;
+  flex: 1;
+  min-height: 340px;
+  overflow: hidden;
+  border-radius: 2px;
+  background: #111;
+}
+
+.img {
+  object-fit: cover;
+  transition: transform 1s var(--ease-out);
+}
+
+@media (hover: hover) {
+  .origin:hover .img {
+    transform: scale(1.04);
+  }
+}
+
+.caption {
+  padding: 0 8px;
+  font-size: 12px;
+  letter-spacing: 0.02em;
+  color: var(--color-subtle);
+}
+
+.origin .text {
+  padding: 0 8px;
+}
+
+/* Round "$3 sold" sticker slapped on the photo's corner */
+.price {
+  position: absolute;
+  top: 28px;
+  right: -18px;
+  z-index: 2;
+  display: grid;
+  place-content: center;
+  width: 104px;
+  height: 104px;
+  border-radius: 50%;
+  background: var(--accent-gold);
+  color: #111;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  box-shadow: var(--sticker-shadow);
+  rotate: 12deg;
+  animation: wobble 4s ease-in-out infinite;
+}
+
+.price b {
+  font-size: 38px;
+  font-weight: 700;
+  letter-spacing: -0.05em;
+  text-transform: none;
+}
+
+@keyframes wobble {
+  0%,
+  100% {
+    rotate: 12deg;
+  }
+  50% {
+    rotate: 4deg;
+  }
+}
+
+/* ---------- 02: code ---------- */
+.editor {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 190px;
+  overflow: hidden;
+  border-radius: 6px;
+  background: #111;
+}
+
+.editorBar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 14px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.editorBar i {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.18);
+}
+
+.editorBar span {
+  margin-left: 8px;
+}
+
+.editorBody {
+  flex: 1;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+}
+
+.code {
+  margin: 0;
+  padding: 16px 18px;
+  min-height: 9.5em;
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 13px;
+  line-height: 1.55;
+  color: var(--accent-gold);
+  white-space: pre;
+}
+
+.code::after {
+  content: "";
+  display: inline-block;
+  width: 7px;
+  height: 1.1em;
+  margin-left: 1px;
+  vertical-align: text-bottom;
+  background: #fff;
+  animation: blink 1s steps(1) infinite;
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+.preview {
+  display: grid;
+  place-items: center;
+  background:
+    radial-gradient(circle, rgba(0, 0, 0, 0.1) 1px, transparent 1.4px) 0 0 / 16px 16px,
+    #f5f5f5;
+}
+
+/* The live preview: each typed prop switches on one data attribute */
+.previewButton {
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 14px;
+  border: 1px solid #cfcfcf;
+  border-radius: 4px;
+  background: #fff;
+  color: #111;
+  font-size: 14px;
+  white-space: nowrap;
+  transition:
+    border-radius 0.45s var(--ease-out),
+    background-color 0.35s ease,
+    color 0.35s ease,
+    padding 0.45s var(--ease-out),
+    font-size 0.45s var(--ease-out),
+    border-color 0.35s ease;
+}
+
+.previewButton[data-radius] {
+  border-radius: 144px;
+}
+
+.previewButton[data-ink] {
+  border-color: #111;
+  background: #111;
+  color: #fff;
+}
+
+.previewButton[data-lg] {
+  padding: 12px 24px;
+  font-size: 17px;
+}
+
+/* ---------- 03: views ---------- */
+.bigNumber {
+  font-size: clamp(56px, 6vw, 88px);
+  font-weight: 600;
+  line-height: 0.9;
+  letter-spacing: -0.06em;
+  font-variant-numeric: tabular-nums;
+}
+
+.viewsLabel {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 15px;
+  line-height: 1.35;
+  letter-spacing: -0.02em;
+}
+
+.handle {
+  font-weight: 600;
+}
+
+/* ---------- 04: Madrid ---------- */
+.sevenClip {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  border-radius: inherit;
+  pointer-events: none;
+}
+
+.seven {
+  position: absolute;
+  right: -6%;
+  bottom: -22%;
+  font-size: clamp(200px, 20vw, 300px);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.06em;
+  color: #fff;
+  -webkit-text-stroke: 3px var(--accent-gold-deep);
+  paint-order: stroke fill;
+  transition: translate 0.8s var(--ease-out);
+}
+
+@media (hover: hover) {
+  .madrid:hover .seven {
+    translate: -6px -10px;
+  }
+}
+
+.madridText {
+  position: relative;
+  max-width: 70%;
+  font-size: 17px;
+  line-height: 1.45;
+  letter-spacing: -0.02em;
+  color: var(--color-foreground);
+}
+
+.madridText strong {
+  font-weight: 600;
+}
+
+/* ---------- 05: route ---------- */
+.route {
+  width: 100%;
+  height: auto;
+  margin-top: auto;
+  overflow: visible;
+}
+
+.routePath {
+  fill: none;
+  stroke: #111;
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  stroke-dasharray: 6 8;
+}
+
+.routeDraw {
+  fill: none;
+  stroke: #fff;
+  stroke-width: 8;
+}
+
+.stop circle {
+  fill: #fff;
+  stroke: #111;
+  stroke-width: 2.5;
+}
+
+.stopHome circle {
+  fill: var(--accent-gold);
+}
+
+.stop text {
+  font-family: var(--font-sans);
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  fill: #111;
+}
+
+/* ---------- 06: off screen ---------- */
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.chip {
+  padding: 10px 18px;
+  border-radius: 144px;
+  font-size: clamp(15px, 1.3vw, 18px);
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  box-shadow: var(--sticker-shadow);
+  rotate: var(--r);
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 1024px) {
+  .bento {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .origin,
+  .codeCard,
+  .routeCard,
+  .offCard {
+    grid-column: 1 / 3;
+    grid-row: auto;
+  }
+
+  .viewsCard {
+    grid-column: 1;
+  }
+
+  .madrid {
+    grid-column: 2;
+  }
+}
+
+@media (max-width: 640px) {
+  .bento {
+    grid-template-columns: minmax(0, 1fr);
+    padding-inline: 6px;
+  }
+
+  .origin,
+  .codeCard,
+  .viewsCard,
+  .madrid,
+  .routeCard,
+  .offCard {
+    grid-column: 1;
+  }
+
+  .price {
+    right: -6px;
+    width: 84px;
+    height: 84px;
+  }
+
+  .price b {
+    font-size: 30px;
+  }
+
+  .editorBody {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .preview {
+    min-height: 110px;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .price,
+  .code::after {
+    animation: none;
+  }
+}

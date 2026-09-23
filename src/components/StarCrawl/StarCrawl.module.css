@@ -1,0 +1,330 @@
+/* Scroll room: the stage stays pinned while the page scrolls through this section. */
+.crawlSection {
+  --crawl-yellow: #ffe81f;
+  --crawl-blue: #4bd5ee;
+
+  position: relative;
+  height: 220svh;
+  background: #000;
+}
+
+.stage {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  overflow: hidden;
+  background: #000;
+  color: var(--crawl-yellow);
+}
+
+/* ---------- Sky ---------- */
+.sky {
+  position: absolute;
+  inset: 0 0 -100svh;
+}
+
+.starLayer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-radius: 50%;
+  background: transparent;
+  animation: twinkle 4s ease-in-out infinite alternate;
+}
+
+.starLayer:nth-child(2) {
+  animation-duration: 6s;
+  animation-delay: -2s;
+}
+
+.starLayer:nth-child(3) {
+  animation-duration: 3s;
+  animation-delay: -1s;
+}
+
+@keyframes twinkle {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0.55;
+  }
+}
+
+/* A desert planet waiting below the frame for the final tilt down. */
+.planet {
+  position: absolute;
+  left: 50%;
+  top: calc(100svh + 42svh);
+  width: max(220vw, 1800px);
+  aspect-ratio: 1;
+  translate: -50% 0;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 50% 0%, rgba(255, 214, 150, 0.9) 0%, rgba(214, 142, 70, 0.55) 6%, transparent 22%),
+    radial-gradient(circle at 50% 30%, #6b3d19 0%, #2a160a 30%, #0a0503 55%);
+  box-shadow:
+    0 -6px 30px rgba(255, 200, 130, 0.55),
+    0 -40px 140px rgba(255, 160, 80, 0.25);
+}
+
+/* Animated in by GSAP */
+.opening,
+.logo,
+.hint {
+  visibility: hidden;
+}
+
+/* ---------- Opening card ---------- */
+.opening {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  translate: -50% -50%;
+  width: min(90vw, 760px);
+  font-size: clamp(20px, 2.6vw, 36px);
+  font-weight: 400;
+  line-height: 1.4;
+  letter-spacing: -0.01em;
+  color: var(--crawl-blue);
+}
+
+/* ---------- Logo ---------- */
+.logoSpace {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  perspective: 800px;
+  pointer-events: none;
+}
+
+.logo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: clamp(90px, 17vw, 260px);
+  font-weight: 700;
+  line-height: 0.82;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  /* Stroke painted under a black fill: only the outer contour shows, hiding the font's overlapping outlines. */
+  color: #000;
+  -webkit-text-stroke: max(4px, 0.026em) var(--crawl-yellow);
+  paint-order: stroke fill;
+  will-change: transform;
+}
+
+/* ---------- Crawl ---------- */
+.viewport {
+  position: absolute;
+  inset: 0;
+  /* With a 50° tilt the plane's horizon sits ≈ perspective × cot(50°) above the origin, i.e. near the top edge. */
+  perspective: 450px;
+  perspective-origin: 50% 46%;
+  overflow: hidden;
+  /* Text fades out as it approaches the horizon. */
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, transparent 8%, #000 45%);
+  mask-image: linear-gradient(to bottom, transparent 0%, transparent 8%, #000 45%);
+  pointer-events: none;
+}
+
+.plane {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: min(900px, 90vw);
+  height: 100%;
+  transform: translateX(-50%) rotateX(50deg);
+  transform-origin: 50% 100%;
+  transform-style: preserve-3d;
+}
+
+.crawl {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  font-size: clamp(26px, 3.6vw, 54px);
+  font-weight: 600;
+  line-height: 1.45;
+  letter-spacing: 0.01em;
+  text-align: justify;
+  hyphens: none;
+  will-change: transform;
+}
+
+.crawl p {
+  margin-bottom: 1.1em;
+}
+
+.episode {
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 0.3em !important;
+}
+
+.crawlTitle {
+  margin-bottom: 1.1em;
+  font-size: 1.6em;
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: 0.02em;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+/* ---------- Controls ---------- */
+.controls {
+  position: absolute;
+  right: clamp(16px, 3vw, 40px);
+  bottom: clamp(16px, 3vw, 32px);
+  z-index: 2;
+  display: flex;
+  gap: 8px;
+}
+
+.control {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 38px;
+  padding: 0 16px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 144px;
+  background: rgba(255, 255, 255, 0.06);
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 13px;
+  letter-spacing: var(--tracking-tight);
+  cursor: pointer;
+  backdrop-filter: blur(8px);
+  transition:
+    background-color 0.3s ease,
+    border-color 0.3s ease;
+}
+
+@media (hover: hover) {
+  .control:hover {
+    background: rgba(255, 255, 255, 0.14);
+    border-color: rgba(255, 255, 255, 0.35);
+  }
+}
+
+.replayIcon {
+  display: inline-block;
+  font-size: 15px;
+  line-height: 1;
+  transition: rotate 0.5s var(--ease-out);
+}
+
+@media (hover: hover) {
+  .control:hover .replayIcon {
+    rotate: -180deg;
+  }
+}
+
+/* Little equaliser that dances while the music plays */
+.bars {
+  display: inline-flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 12px;
+}
+
+.bars i {
+  width: 2px;
+  height: 4px;
+  border-radius: 1px;
+  background: currentColor;
+}
+
+.bars[data-on] i {
+  animation: bar 0.9s ease-in-out infinite alternate;
+}
+
+.bars[data-on] i:nth-child(2) {
+  animation-delay: -0.3s;
+}
+
+.bars[data-on] i:nth-child(3) {
+  animation-delay: -0.6s;
+}
+
+@keyframes bar {
+  from {
+    height: 3px;
+  }
+  to {
+    height: 12px;
+  }
+}
+
+.hint {
+  position: absolute;
+  left: 50%;
+  bottom: clamp(24px, 5vh, 56px);
+  z-index: 2;
+  translate: -50% 0;
+  font-size: 15px;
+  letter-spacing: var(--tracking-tight);
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.hint span {
+  display: inline-block;
+  animation: nudge 1.6s ease-in-out infinite;
+}
+
+@keyframes nudge {
+  50% {
+    translate: 0 4px;
+  }
+}
+
+/* ---------- Reduced motion: a still, readable version ---------- */
+.crawlSection[data-static] {
+  height: auto;
+}
+
+.crawlSection[data-static] .stage {
+  position: relative;
+  height: auto;
+  padding: 160px var(--gutter) 120px;
+}
+
+.crawlSection[data-static] .opening,
+.crawlSection[data-static] .logoSpace,
+.crawlSection[data-static] .hint,
+.crawlSection[data-static] .planet {
+  display: none;
+}
+
+.crawlSection[data-static] .viewport,
+.crawlSection[data-static] .plane,
+.crawlSection[data-static] .crawl {
+  position: static;
+  width: auto;
+  height: auto;
+  translate: none;
+  transform: none;
+  -webkit-mask-image: none;
+  mask-image: none;
+}
+
+.crawlSection[data-static] .crawl {
+  max-width: 820px;
+  margin: 0 auto;
+}
+
+@media (max-width: 640px) {
+  .controls {
+    left: 16px;
+    right: 16px;
+    justify-content: center;
+  }
+
+  .hint {
+    bottom: 80px;
+  }
+}

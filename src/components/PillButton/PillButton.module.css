@@ -1,0 +1,57 @@
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+  padding: 8px 24px;
+  border-radius: 144px;
+  background: var(--color-button);
+  box-shadow: var(--shadow-button);
+  font-size: 14px;
+  letter-spacing: var(--tracking-tight);
+  white-space: nowrap;
+  transition:
+    transform 0.4s var(--ease-out),
+    box-shadow 0.4s var(--ease-out);
+}
+
+.muted {
+  color: var(--color-muted);
+}
+
+.dark {
+  color: var(--color-black);
+}
+
+.roll {
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
+  line-height: 1.25;
+}
+
+.roll > span {
+  display: block;
+  transition: transform 0.55s var(--ease-out);
+}
+
+.roll > span::after {
+  content: attr(data-text);
+  position: absolute;
+  left: 0;
+  top: 100%;
+}
+
+@media (hover: hover) {
+  .button:hover {
+    transform: translateY(-1px);
+  }
+
+  .button:hover .roll > span {
+    transform: translateY(-100%);
+  }
+}
+
+.button:active {
+  transform: scale(0.97);
+}
