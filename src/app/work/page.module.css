@@ -1,42 +1,88 @@
+.surface {
+  --color-bg: #faf9f6;
+  --color-border: #e2dfd8;
+  --color-surface: #f0eee8;
+  background: var(--color-bg);
+}
+
 .page {
-  max-width: var(--page-max);
+  max-width: 1600px;
   margin: 0 auto;
-  padding: clamp(128px, 14vw, 184px) var(--gutter) 0;
+  padding: clamp(128px, 11vw, 164px) clamp(24px, 4vw, 64px) 0;
 }
 
 .intro {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 24px;
-  align-items: start;
-  padding-bottom: clamp(64px, 8vw, 120px);
+  padding-bottom: clamp(44px, 5vw, 72px);
 }
 
 .label {
-  padding-top: 0.6em;
-  font-size: 14px;
-  letter-spacing: var(--tracking-tight);
+  margin-bottom: 28px;
+  font-size: 12px;
+  font-weight: 400;
   color: var(--color-muted);
+}
+
+.introBody {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 48px;
+}
+
+.titleWrap {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  flex-shrink: 0;
+}
+
+.heading {
+  font-size: clamp(56px, 7.7vw, 112px);
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: -0.065em;
+}
+
+.total {
+  padding-top: 0.65em;
+  font-size: 14px;
+  color: #766c5e;
   font-variant-numeric: tabular-nums;
 }
 
-/* Two-tone statement: emphasised words in ink, the rest in grey */
 .statement {
-  font-size: clamp(32px, 3.9vw, 56px);
+  max-width: 29ch;
+  padding-bottom: 5px;
+  font-size: clamp(16px, 1.35vw, 19px);
   font-weight: 400;
-  line-height: 1.1;
-  letter-spacing: -0.04em;
-  color: #8f8f8f;
+  line-height: 1.5;
+  letter-spacing: -0.02em;
+  color: var(--color-muted);
+  text-wrap: pretty;
 }
 
-.statement b {
-  font-weight: 400;
-  color: var(--color-foreground);
+@media (max-width: 1000px) {
+  .introBody {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .statement {
+    max-width: 43ch;
+  }
 }
 
-@media (max-width: 760px) {
-  .intro {
-    grid-template-columns: 1fr;
-    gap: 16px;
+@media (max-width: 480px) {
+  .titleWrap {
+    gap: 8px;
+  }
+
+  .heading {
+    font-size: clamp(42px, 10.3vw, 52px);
+  }
+
+  .total {
+    font-size: 11px;
   }
 }
